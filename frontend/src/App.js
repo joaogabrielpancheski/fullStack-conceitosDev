@@ -15,9 +15,16 @@ function App() {
     });
   }, []);
 
-  function handleAddProject() {
-    setProjects([...projects, `Novo projeto ${Date.now()}`]);
-  }
+  async function handleAddProject() {
+    // setProjects([...projects, `Novo projeto ${Date.now()}`]);
+
+    const { data: project } = await api.post('projects', {
+      title: `Novo projeto ${Date.now()}`,
+	    owner: 'João Gabriel Pancheski'
+    });
+
+    setProjects([...projects, project]);
+  };
 
   return (
     <>
@@ -27,7 +34,7 @@ function App() {
         {projects.map(project => <li key={project.id}>{project.title}</li>)}
       </ul>
 
-      {/* <button type="button" onClick={handleAddProject}>Adicionar projeto</button> */}
+      <button type="button" onClick={handleAddProject}>Adicionar projeto</button>
     </>
   );
 };
